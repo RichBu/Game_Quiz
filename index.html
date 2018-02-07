@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="eng-us">
+
+
+<!--  index.html  of Hangman game -->
+
+<!-- by Rich Budek  02/05/2018        -->
+<!-- for NU Bootcamp.  Crystal    -->
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rich Budek's Crystals Game Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- load in a reset of CSS  -->
+    <!-- *RPB  redo the styles after loading in the rest.css  -->
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css">   -->
+    <!-- load my style sheet -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!-- load FontAwesome -->
+    <script src="https://use.fontawesome.com/f41d7d3328.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default" id="navBarCommon">
+        <!--  NavBar is loaded in JS based on id="navBarCommon" -->
+        <!--  this makes the NavBar be the same across all the web pages -->
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- top row, make it two columns for smaller screens -->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <!-- This is coumn of heading -->
+                <div class="visible-lg-block visible-md-block hidden-sm hidden-xs">
+                    <!-- <div>  -->
+                    <p>
+                        <h1>Crystals</h1>
+                    </p>
+                </div>
+                <div class="hidden-lg hidden-md visible-sm-block visible-xs-block">
+                    <!-- <div>  -->
+                    <p>
+                        <h1>Crystals</h1>
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-6 col xs-6 ">
+                <!--                    <div class="row visible-lg-block visible-md-block hidden-sm hidden-xs">   -->
+                <div class="row">
+                    <p>
+                        <h2> </h2>
+                    </p>
+                </div>
+                <div class="row ">
+                    <!-- This is the column with buttons -->
+                    <button style="Float: left; " id="btnPlay" class="bigButton " data-toggle="tooltip " title="Play the game ">PLAY </button>
+                    <button style="Float: left; " id="btnHiScores" class="bigButton " data-toggle="tooltip " title="high scores ">HI SCORES</button>
+                    <button style="Float: left; " id="btnHelp" class="bigButton " data-toggle="tooltip " title="Help and about ">
+                        <span class="glyphicon glyphicon-info-sign "></span>
+                    </button>
+                    <button style="Float: left; " id="btnSettings" class="bigButton " data-toggle="tooltip " title="Settings for game ">
+                        <span class="glyphicon glyphicon-cog "></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <!-- main wrapper is row of two columns -->
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                <!-- left hand colmn is two rows -->
+                <div class="row ">
+                </div>
+                <!-- but the collection basket of crystals into a row -->
+                <div class="row ">
+                    <!-- wrap the left side with "article " tag for SEO engines -->
+                    <div id="histRow">
+                        <!-- blank area right now -->
+                        <h4>History of selections (not working yet)</h4>
+                        <img src="http://placehold.it/50x50" alt="Placeholder " class="img-thumbnail img-responsive imgCrystalContainer">
+                        <img src="http://placehold.it/50x50" alt="Placeholder " class="img-thumbnail img-responsive imgCrystalContainer">
+                        <img src="http://placehold.it/50x50" alt="Placeholder " class="img-thumbnail img-responsive imgCrystalContainer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                <aside>
+                    <!--                    <div class="row ">  -->
+                    <!--                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">  -->
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span>target</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
+                            <span id="lblTarget" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span>current</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
+                            <span id="lblCurrent" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                    <!--                        </div>  -->
+
+                    <!--                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">  -->
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span>left</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
+                            <span id="lblLeft" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span># stones</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
+                            <span id="lblNumStones" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+        <div class="row">
+            <p></p>
+        </div>
+        <div class="row" id="buttonRow">
+        </div>
+        <div class="row">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- main row -->
+
+
+    <!-- Modal windows come up next -->
+    <!--   Modal test windows until rest of logic is complete  -->
+    <!-- Won Modal -->
+    <div id="modOverWon" class="modal">
+        <div class="modal-content">
+            <span id="closeModOverWon" class="close">&times;</span>
+            <h2>
+                <p>You Won !!!</p>
+            </h2>
+            <p> </p>
+            <p id="modWonAnswer"> </p>
+            <p>To play again, press the PLAY button and then pick NEW GAME</p>
+        </div>
+    </div>
+    <!-- lost Modal -->
+    <div id="modOverLost" class="modal">
+        <div class="modal-content">
+            <span id="closeModOverLost" class="close">&times;</span>
+            <h2>
+                <p>Sorry you lost</p>
+            </h2>
+            <p> </p>
+            <p id="modLostAnswer"></p>
+            <p>To play again, press the PLAY button and then pick NEW GAME</p>
+        </div>
+    </div>
+    <!-- Key Duplicate modal -->
+    <div id="modKeyDup" class="modal">
+        <div class="modal-content">
+            <span id="closeModKeyDup" class="close">&times;</span>
+            <h2>
+                <p>You tried that already</p>
+            </h2>
+            <p> </p>
+            <p>I would really like to take some points away for trying the same letter again I won't. Do you really expect a
+                different result ?</p>
+        </div>
+    </div>
+    <!-- Game Over -->
+    <div id="modGameOver" class="modal">
+        <div class="modal-content">
+            <span id="closeModGameOver" class="close">&times;</span>
+            <h2>
+                <p>Game is Over</p>
+            </h2>
+            <p> </p>
+            <p>To play again, press the PLAY button and then pick NEW GAME</p>
+            <p>To view the answer again, press the WORDS button and then click on Answer</p>
+        </div>
+    </div>
+    <!-- MODAL GameBlank -->
+    <div id="modGameBlank" class="modal">
+        <div class="modal-content">
+            <span id="closeModGameBlank" class="close">&times;</span>
+            <h2>
+                <p>No Game</p>
+            </h2>
+            <p> </p>
+            <p>No game has been started. To familiarize yourself with the play, click the Info button.
+            </p>
+            <p>To begin play, press the PLAY button and then pick NEW GAME</p>
+        </div>
+    </div>
+
+
+    <!-- MODAL Settings  -->
+    <div id="modSettings" class="modal">
+        <div class="modal-content">
+            <span id="closeModSettings" class="close">&times;</span>
+            <h4>
+                <p>Settings for the game</p>
+            </h4>
+            <p>These are the global settings to be used throughout the game</p>
+            <div class="modal-footer">
+                <span>
+                    <button style="Float: left; " id="btnSetCheat" class="btn btn-default bigButton " data-toggle="tooltip " title="Sets left crystal (blue heart) for a value of 1 so can win for sure">Cheat</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- Help Modal -->
+    <div id="modHelp" class="modal">
+        <div class="modal-content">
+            <span id="closeModHelp" class="close">&times;</span>
+            <h4>
+                <p>Help / About</p>
+            </h4>
+            <p>Crystals Demonstration Game by Rich Budek</p>
+            <p></p>
+            <p>This game is meant to run inside of a browser.
+            </p>
+            <p>When the game starts, you are given a target from 19 to 120 that you must match. Each gem stone is given a random
+                number from 1 to 12, but you do not see that value. By clicking on a stone, you collect the stones and the
+                game gives you your score.
+            </p>
+            <p> </p>
+            <p>You win the game when you match the target score exactly</p>
+            <p>You lose the game when the stones you collect exceed your target.
+            </p>
+            <p>CHEATING: if you can't win and want to check out what a win looks like, from the settings click the Cheat button.
+                This will set the left most crystal to 1 ensuring you can win.</p>
+            <div class="modal-footer">
+                <span>
+                    <button style="Float: left; " id="btnHelp2" class="btn btn-default bigButton " data-toggle="tooltip " title="Get technical details">Technical Details</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- Help Modal -->
+    <div id="modHelp2" class="modal">
+        <div class="modal-content">
+            <span id="closeModHelp2" class="close">&times;</span>
+            <h4>
+                <p>Help / About</p>
+            </h4>
+            <p>Crystals Demonstration by Rich Budek</p>
+            <p></p>
+            <p>This game is meant to run inside of a browser using HTML and CSS for styling. Twitters BootStrap is used for
+                some of the more advanced display functions and popups.
+            </p>
+            <p>Javascript and jQuery are the languages that do all of the processing and also manipulates the page's element's
+                using jQuery. All the crystals are stored as objects in an array and then placed into the collection area
+                using jAppend.
+            </p>
+            <p>The windows is responsive (liquid) will change based on the size of the screen, with buttons moving, etc. as
+                the screen width changes. Dialog is presented to the user using modals.
+            </p>
+        </div>
+    </div>
+    <!-- Hi-Scores Modal -->
+    <div id="modHiScores" class="modal">
+        <div class="modal-content">
+            <span id="closeModHiScores" class="close">&times;</span>
+            <h4>
+                <p>Hi-Scores for this Game</p>
+            </h4>
+            <p>Since no high scores are being listed, I guess Rich Budek has the high score</p>
+        </div>
+    </div>
+    <!-- Play Modal -->
+    <div id="modPlay" class="modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <span id="closeModPlay" class="close">&times;</span>
+                <h4>
+                    <p>Play the Game</p>
+                </h4>
+                <p></p>
+                <p>Enter your name: </p>
+                <div class="modal-footer">
+                    <span>
+                        <button style="Float: left; " id="btnNewGame" class="btn btn-default bigButton " data-toggle="tooltip " title="Start a new game">New Game</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of modal windows -->
+
+    <div class="footer ">
+        <span class="label label-default ">Copyright &COPY; 2018 Rich Budek</span>
+    </div>
+
+
+    <!--  Load Javascript libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js "></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js "></script>
+
+    <!-- load my custom js for this project -->
+    <script src="assets/javascript/script_globals.js "></script>
+    <script src="assets/javascript/script.js "></script>
+    <script src="assets/javascript/script_modals.js "></script>
+    <script src="assets/javascript/script_words.js "></script>
+    <script src="assets/javascript/script_play.js "></script>
+    <script>
+
+        $(document).ready(function () {
+            //activate BootStrap tool tips
+            //but don't turn on for phone / tablet
+            $('[data-toggle="tooltip"]').tooltip();
+
+            //create the crystal array
+            var endVal = configData.imgQty;
+            for (var i = 0; i < endVal; i++) {
+                var newCrystal = jQuery.extend(true, {}, crystal);
+                newCrystal.init(configData, i);
+                allCrystals.push(newCrystal);
+            };
+
+            //create the history array
+            var endVal = configData.histQty;
+            for (var i = 0; i < endVal; i++) {
+                var newCrystal = jQuery.extend(true, {}, crystal);
+                newCrystal.init(configData, i);
+                histCrystals.push(newCrystal);
+            };
+
+            // push new buttons into the div
+            var buttonRowDiv = $("#buttonRow");
+            var bttnArray = [];
+            var bttnNew;
+            var bttnImgString;
+            var bttnImgNew;  //actual image
+
+            //loop thru all crystals and add as buttons
+            var endVal = allCrystals.length;
+            for (var i = 0; i < endVal; i++) {
+                bttnNew = $("<button>");
+                bttnImgString = '<img src="' + allCrystals[i].fileName + '">';
+                bttnImgNew = $(bttnImgString);
+                //add value of crystal to the attr flag
+                bttnNew.attr("data-crystal", i);
+                bttnNew.on("click", evalButtonPress);
+                bttnNew.append(bttnImgNew);
+                buttonRowDiv.append(bttnNew);
+                //$("#buttonRow").append(bttnNew);
+            };
+
+            //loop thru all history crystals and add as history buttons
+            var imgNew;
+            var testImg = 'http://placehold.it/50x50';
+            var styleStr = 'width: 50px; height: 50px';
+            var endVal = configData.histQty;
+            for (var i = 0; i < endVal; i++) {
+                imgNew = $("<img>");
+                imgNew.attr("src", testImg);
+                //add position of crystal to the attr flag
+                imgNew.attr("style", styleStr );
+                buttonRowDiv.append(imgNew);
+                //$("#buttonRow").append(bttnNew);
+            };
+
+
+            gameObj.init();   //init all the game variables
+            gameObj.isGameOver = true;  //first time thru loop, set game over
+            gameObj.update(allCrystals);  //recalc all the crystals
+            gameObj.redraw(configData);
+
+
+
+            function evalButtonPress() {
+                //the character coming in can come from mobile entry
+                //or the keyboard
+                if (gameObj.isGameOver) {
+                    //game ended so display the won or lost
+                    gameObj.displayWonLost(allCrystals);
+                } else {
+                    var currentClickedBttn = $(this);
+                    var buttonVal = currentClickedBttn.attr("data-crystal");
+                    allCrystals[buttonVal].qtyPicked++;
+                    gameObj.update(allCrystals);
+                    gameObj.redraw(configData);
+                    gameObj.displayWonLost(allCrystals);
+                };
+            };
+
+
+
+            //here is the main loop now for key presses
+            document.onkeyup = function (event) {
+            }
+        });
+    </script>
+</body>
+
+</html>
