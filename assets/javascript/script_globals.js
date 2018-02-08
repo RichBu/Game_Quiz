@@ -66,119 +66,173 @@ var singleQuestObj = {
 var quizPool = {  //all of the quizzes
     topics: [],                         //topic of quiz
     quesArray: [],                      //array of singleQuesObj
-  
-    //questions: [],                      //final struct is   [topic] [ "quest 1", "quest 2" ]
-    //answers: [],                        // [topic] [quest #] [ "answer 1", "answer 2", "answer 3" ]
+
     topicNum: -1,
     questNum: 0,
 
-    pushQuestion: function ( questArrayIn )  {
-        //pushes a question into the question array
-        this.questions.push( questArrayIn );
-    },
-
-    newTopic: function ( topicIn ) {
+    newTopic: function (topicIn) {
         //pushes a new topic in and then creates new arrays of arrays
-        //this.questNum = 0;
-        this.topics.push( topicIn );
+        this.topics.push(topicIn);
         this.topicNum++;
-
-        //this.questions.push( this.topicNum );
-        //this.answers.push( this.topicNum ); 
     },
 
-    pushFullQuestion: function( quesIn, answersIn ) {
+    pushFullQuestion: function (singleQuestIn) {
         //this.questions
-        this.questions.push( [ this.topicNum, this.questNum, quesIn ] );  //question
-        //this.answers.push( questNum );
-        this.answers.push( [this.topicNum,  this.questNum,  answersIn ] );   
+        singleQuestIn.topicNum = this.topicNum;
+        this.quesArray.push(singleQuestIn);
+        var outObj = singleQuestObj = jQuery.extend(true, {}, singleQuestIn);
         this.questNum++;
+        return outObj;
     }
 };
 
-singleQuestObj.topicNum = 0;
-singleQuestObj.questImgSrc = "";        
-singleQuestObj.questPrompt =  "What is a unit of measure for velocity";        
-singleQuestObj.isAnswersImg = false;    
-singleQuestObj.answersOptionLabels =  [];       
-singleQuestObj.answersPrompt = ["m/sec^3", "miles^2/min", "RPM", "MPH"];       
-singleQuestObj.answersImgSrc = [];      
-singleQuestObj.correctAnswer =  3;       
-singleQuestObj.guessedTypedAnswer = "";  
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;        
-
-
-/*
 quizPool.newTopic("Physics");
-quizPool.pushFullQuestion( "What is a unit of measure for velocity", ["m/sec^3", "miles^2/min", "RPM", "MPH"] );
-quizPool.pushFullQuestion( "Newtons Law can written as", ["F = m * a", "apples = oranges", "F = m * c^2", "E = MC^2"] );
-quizPool.pushFullQuestion( "What is the acceleration of gravity on earth", ["32 ft / sec ^2",  "9.81 ft / sec ^2",  "9.81 m / sec ^2", "23.5 ft / sec ^2"] );
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "What is a unit of measure for velocity";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["m/sec^3", "miles^2/min", "RPM", "MPH"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 3;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
+
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "Newtons Law can written as";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["F = m * a", "apples = oranges", "F = m * c^2", "E = MC^2"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 0;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
+
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "What is the acceleration of gravity on earth";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["32 ft / sec ^2", "9.81 ft / sec ^2", "9.81 m / sec ^2", "23.5 ft / sec ^2"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 0;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
+
 
 quizPool.newTopic("Star Wars");
-quizPool.pushFullQuestion( "What year was the original Star Wars released", ["1981", "1979", "1980", "1977"] );
-quizPool.pushFullQuestion( "What actor plays Luke Skywalker", ["George Harrison",  "Harrison Ford",  "Mark Hamill", "Jama Juice"] );
-quizPool.pushFullQuestion( "How old was Harrison Ford in the original Star Wars", ["40", "35", "22", "25"] );
-*/
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "What year was the original Star Wars released";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["1981", "1979", "1980", "1977"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 3;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-/*
-quizPool.pushFullQuestion( "", ["", "", "", ""] );
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "What actor plays Luke Skywalker";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["George Harrison", "Harrison Ford", "Mark Hamill", "Jama Juice"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 2;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "How old was Harrison Ford in the original Star Wars";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["40", "35", "22", "25"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 3;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-
-
-//Star wars questions
-quizPool.pushQuestion(  
-    ["What year was Star Wars released",
-    "What actor plays Luke Skywalker",
-    "How old was Harrison Ford in the original Star Wars",
-    "How many Star Wars movies were made",
-    "Who is Luke Skywalker dad"
-] );
-
- */   
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";
+singleQuestObj.questPrompt = "Who is Luke Skywalkers dad";
+singleQuestObj.isAnswersImg = false;
+singleQuestObj.answersOptionLabels = [];
+singleQuestObj.answersPrompt = ["Relo", "Dark Vader", "The Emperor", "Fr. Timothy"];
+singleQuestObj.answersImgSrc = [];
+singleQuestObj.correctAnswer = 1;
+singleQuestObj.guessedTypedAnswer = "";
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
 
 var questionObj = {
     questNum: 0,  //the question number, can also be the index
-    questImgSrc: "",        //image if "" then no image
-    questPrompt: "",        //the actual question being asked
-    isAnswersImg: false,    //are the answers images ?
-    answersOptionLabels: [],       //A, B, C  or 1, 2, 3  or True / false
-    answersPrompt: [],       //array of strings with all answers
-    answersImgSrc: [],      //array of strings with all the source filenames
-    correctAnswer: 0,       //what is the correct answer
-    guessedAnswer: 0,       //what the user guesses
-    guessedTypedAnswer: "",  //if the user types in an answer
-    isGuessCorrect: false,
-    pointQuest: 0,          //points for this question
-    pointsEarned: 0,
-    timeToAnswer: 0,        //how long to answer the questions
-
-    init: function () {
-        this.questNum = 0;
-        this.questImgSrc = "";
-        this.questPrompt = "";
-        this.isAnswersImg = false;
-        this.answersOptionLabels = [];
-        this.answersPrompt = [];       //array of strings with all answers
-        this.answersImgSrc = [];      //array of strings with all the source filenames
-        this.correctAnswer = 0;       //what is the correct answer
-        this.guessedAnswer = -1;       //what the user guesseses ... index to answer.  -1 means did not answer
-        this.guessedTypedAnswer = "";  //if the user types in an answer
-        this.isGuessCorrect = false;
-        this.pointQuest = 0;
-        this.pointsEarned = 0;
-        this.timeToAnswer = 0;        //how long to answer the questions
+    fullQuestion: {  //question used for test is one pulled from pool + extra elements
+        questFromPool: singleQuestObj,   //object pulled from pool
+        guessedAnswer: 0,       //what the user guesses
+        guessedTypedAnswer: "",  //if the user types in an answer
+        isGuessCorrect: false,
+        pointsEarned: 0,
+        timeToAnswer: 0        //how long to answer the questions    
     },
 
-    addQuest: function () {  //loads a questions to the array
+    allQuestionsOnQuiz: [],  //all the questions on the quiz (an array) of questionObj
 
+    init: function () {   //clear out all the questions
+        var endVal = this.allQuestionsOnQuiz.length;
+        for (var i = 0; i < endVal; i++) {
+            //there are current questions loaded, so need to pop them off
+            this.allQuestionsOnQuiz.pop();
+        };
+    },
+
+    initFullQuestion: function( fullQuestionIn ) {
+        fullQuestionIn.guessedAnswer = 0;
+        fullQuestionIn.guessedTypedAnswer =  "";
+        fullQuestionIn.isGuessCorrect = false;
+        fullQuestionIn.pointsEarned = 0;
+        fullQuestionIn.timeToAnswer = 0; 
+        return fullQuestionIn;            
+    },
+
+    addAllQuestFromPool: function (quizPoolIn, topicNumIn) {  //loads a questions to the array from 
+        //quizPoolIn is a quizPool object
+        this.init();  //clear out the array
+        var numQuesInPool = quizPool.length;
+        for (var i = 0; i < numQuesInPool; i++) {
+            if (quizPoolIn.quesArray[i].topicNum === topicNumIn) {
+                //topicNum matches, so need to clone a copy then push to array
+                this.initFullQuestion ( this.fullQuestion ); 
+                var questObjToSave = quizPoolIn.quesArray[i]  //this is singleQuestObj type
+
+
+                var tmpFullQuestion = this.fullQuestion;
+                this.fullQuestion.questFromPool = questObjToSave;
+                questObjToSave = jQuery.extend( true, {}, quizPoolIn.quesArray[i] );
+                this.initFullQuestion();
+            };
+        };
     }
 };
 
 
-questionObj.init()
+questionObj.init();
 
 
 var playerObj = {
