@@ -37,70 +37,61 @@
                 question div is picture on left column, question on the right
                 next row is button + img or text
     -->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- top row, make it two columns for smaller screens -->
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <!-- This is coumn of heading -->
-                <div class="visible-lg-block visible-md-block hidden-sm hidden-xs">
-                    <!-- <div>  -->
-                    <p>
-                        <h1>Quiz Game</h1>
-                    </p>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- top row, make it two columns for smaller screens -->
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                    <!-- This is coumn of heading -->
+                    <div class="visible-lg-block visible-md-block hidden-sm hidden-xs">
+                        <!-- <div>  -->
+                        <p>
+                            <h1>Quiz Game</h1>
+                        </p>
+                    </div>
+                    <div class="hidden-lg hidden-md visible-sm-block visible-xs-block">
+                        <!-- <div>  -->
+                        <p>
+                            <h1>Quiz Game</h1>
+                        </p>
+                    </div>
                 </div>
-                <div class="hidden-lg hidden-md visible-sm-block visible-xs-block">
-                    <!-- <div>  -->
-                    <p>
-                        <h1>Quiz Game</h1>
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-8 col-sm-6 col xs-6 ">
-                <!--                    <div class="row visible-lg-block visible-md-block hidden-sm hidden-xs">   -->
-                <div class="row">
-                    <p>
-                        <h2> </h2>
-                    </p>
-                </div>
-                <div class="row ">
-                    <!-- This is the column with buttons -->
-                    <button style="Float: left; " id="btnPlay" class="bigButton " data-toggle="tooltip " title="Play the game ">PLAY </button>
-                    <button style="Float: left; " id="btnHiScores" class="bigButton " data-toggle="tooltip " title="high scores ">HI SCORES</button>
-                    <button style="Float: left; " id="btnHelp" class="bigButton " data-toggle="tooltip " title="Help and about ">
-                        <span class="glyphicon glyphicon-info-sign "></span>
-                    </button>
-                    <button style="Float: left; " id="btnSettings" class="bigButton " data-toggle="tooltip " title="Settings for game ">
-                        <span class="glyphicon glyphicon-cog "></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="row ">
-            <!-- main wrapper is row of two columns -->
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                <!-- left hand colmn is two rows -->
-                <div class="row ">
-                </div>
-                <!-- but the collection basket of crystals into a row -->
-                <div class="row ">
-                    <!-- wrap the left side with "article " tag for SEO engines -->
-                    <div id="histRow">
-                        <!-- blank area right now -->
-                        <h4>History of selections (not working yet)</h4>
-                        <img src="http://placehold.it/50x50" alt="Placeholder " class="img-thumbnail img-responsive imgCrystalContainer">
-                        <img src="http://placehold.it/50x50" alt="Placeholder " class="img-thumbnail img-responsive imgCrystalContainer">
-                        <img src="http://placehold.it/50x50" alt="Placeholder " class="img-thumbnail img-responsive imgCrystalContainer">
+                <div class="col-lg-8 col-md-8 col-sm-6 col xs-6 ">
+                    <!--                    <div class="row visible-lg-block visible-md-block hidden-sm hidden-xs">   -->
+                    <div class="row">
+                        <p>
+                            <h2> </h2>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <!-- This is the column with buttons -->
+                        <button style="Float: left; " id="btnPlay" class="bigButton " data-toggle="tooltip " title="Play the game ">PLAY </button>
+                        <button style="Float: left; " id="btnHiScores" class="bigButton " data-toggle="tooltip " title="high scores ">HI SCORES</button>
+                        <button style="Float: left; " id="btnHelp" class="bigButton " data-toggle="tooltip " title="Help and about ">
+                            <span class="glyphicon glyphicon-info-sign "></span>
+                        </button>
+                        <button style="Float: left; " id="btnSettings" class="bigButton " data-toggle="tooltip " title="Settings for game ">
+                            <span class="glyphicon glyphicon-cog "></span>
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                <aside>
+            <div class="row">
+                <!-- main wrapper is row of two columns -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <!-- full width for question -->
+                    <div id="question">
+                        <p> Question goes here </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                     <!--                    <div class="row ">  -->
                     <!--                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">  -->
                     <div class="panel panel-info panelMinMargin ">
                         <div class="panel-heading panelMinPadding ">
-                            <span>target</span>
+                            <span>question</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
                             <span id="lblTarget" style="display: block; ">--</span>
@@ -114,9 +105,6 @@
                             <span id="lblCurrent" style="display: block; ">--</span>
                         </div>
                     </div>
-                    <!--                        </div>  -->
-
-                    <!--                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">  -->
                     <div class="panel panel-info panelMinMargin ">
                         <div class="panel-heading panelMinPadding ">
                             <span>left</span>
@@ -127,23 +115,30 @@
                     </div>
                     <div class="panel panel-info panelMinMargin ">
                         <div class="panel-heading panelMinPadding ">
-                            <span># stones</span>
+                            <span># right</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
                             <span id="lblNumStones" style="display: block; ">--</span>
                         </div>
                     </div>
-                </aside>
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span>time left</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
+                            <span id="lblNumStones" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
-        <div class="row">
-            <p></p>
-        </div>
-        <div class="row" id="buttonRow">
-        </div>
-        <div class="row">
-            <p></p>
+            <div class="row">
+                <p></p>
+            </div>
+            <div class="row" id="buttonRow">
+            </div>
+            <div class="row">
+                <p></p>
+            </div>
         </div>
     </div>
 
@@ -237,20 +232,14 @@
             <h4>
                 <p>Help / About</p>
             </h4>
-            <p>Crystals Demonstration Game by Rich Budek</p>
+            <p>Quiz Demonstration Game by Rich Budek</p>
             <p></p>
             <p>This game is meant to run inside of a browser.
             </p>
-            <p>When the game starts, you are given a target from 19 to 120 that you must match. Each gem stone is given a random
-                number from 1 to 12, but you do not see that value. By clicking on a stone, you collect the stones and the
-                game gives you your score.
+            <p>This is a trivia quiz game, with a twist, you are timed per question. If you don't answer in time, then the display
+                jumps to the next question. You have two categories to choose from.
             </p>
             <p> </p>
-            <p>You win the game when you match the target score exactly</p>
-            <p>You lose the game when the stones you collect exceed your target.
-            </p>
-            <p>CHEATING: if you can't win and want to check out what a win looks like, from the settings click the Cheat button.
-                This will set the left most crystal to 1 ensuring you can win.</p>
             <div class="modal-footer">
                 <span>
                     <button style="Float: left; " id="btnHelp2" class="btn btn-default bigButton " data-toggle="tooltip " title="Get technical details">Technical Details</button>
@@ -265,10 +254,14 @@
             <h4>
                 <p>Help / About</p>
             </h4>
-            <p>Crystals Demonstration by Rich Budek</p>
+            <p>Quiz Demonstration by Rich Budek</p>
             <p></p>
             <p>This game is meant to run inside of a browser using HTML and CSS for styling. Twitters BootStrap is used for
                 some of the more advanced display functions and popups.
+            </p>
+            <p>
+                In this version, there are no databases, just objects. The object has been defined to be universal to accept any number of
+                possible answers to a question and to allow an image for a question as well as image answers to pick from
             </p>
             <p>Javascript and jQuery are the languages that do all of the processing and also manipulates the page's element's
                 using jQuery. All the crystals are stored as objects in an array and then placed into the collection area
@@ -331,21 +324,7 @@
             //but don't turn on for phone / tablet
             $('[data-toggle="tooltip"]').tooltip();
 
-            //create the crystal array
-            var endVal = configData.imgQty;
-            for (var i = 0; i < endVal; i++) {
-                var newCrystal = jQuery.extend(true, {}, crystal);
-                newCrystal.init(configData, i);
-                allCrystals.push(newCrystal);
-            };
 
-            //create the history array
-            var endVal = configData.histQty;
-            for (var i = 0; i < endVal; i++) {
-                var newCrystal = jQuery.extend(true, {}, crystal);
-                newCrystal.init(configData, i);
-                histCrystals.push(newCrystal);
-            };
 
             // push new buttons into the div
             var buttonRowDiv = $("#buttonRow");
@@ -354,33 +333,6 @@
             var bttnImgString;
             var bttnImgNew;  //actual image
 
-            //loop thru all crystals and add as buttons
-            var endVal = allCrystals.length;
-            for (var i = 0; i < endVal; i++) {
-                bttnNew = $("<button>");
-                bttnImgString = '<img src="' + allCrystals[i].fileName + '">';
-                bttnImgNew = $(bttnImgString);
-                //add value of crystal to the attr flag
-                bttnNew.attr("data-crystal", i);
-                bttnNew.on("click", evalButtonPress);
-                bttnNew.append(bttnImgNew);
-                buttonRowDiv.append(bttnNew);
-                //$("#buttonRow").append(bttnNew);
-            };
-
-            //loop thru all history crystals and add as history buttons
-            var imgNew;
-            var testImg = 'http://placehold.it/50x50';
-            var styleStr = 'width: 50px; height: 50px';
-            var endVal = configData.histQty;
-            for (var i = 0; i < endVal; i++) {
-                imgNew = $("<img>");
-                imgNew.attr("src", testImg);
-                //add position of crystal to the attr flag
-                imgNew.attr("style", styleStr );
-                buttonRowDiv.append(imgNew);
-                //$("#buttonRow").append(bttnNew);
-            };
 
 
             gameObj.init();   //init all the game variables
@@ -388,6 +340,12 @@
             gameObj.update(allCrystals);  //recalc all the crystals
             gameObj.redraw(configData);
 
+            questionObj.init();
+
+            var pickSubject = prompt( "Which subject:  0=Physics 1=Star Wars");
+            var questionNum = parseInt(pickSubject);
+            questionObj.addAllQuestFromPool(quizPool, questionNum );
+            questionObj.displayQuestion( questionNum );
 
 
             function evalButtonPress() {

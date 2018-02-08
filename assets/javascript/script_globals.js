@@ -20,6 +20,7 @@ var configData = {
     lblCurrent: "#lblCurrent",
     lblLeft: "#lblLeft",
     lblNumStones: "#lblNumStones",
+    divQuestion: "#question",
     imgDir: "assets/images/",
     imgQty: 4,
     imgFiles: ["cryBluHeart.png",
@@ -80,7 +81,7 @@ var quizPool = {  //all of the quizzes
         //this.questions
         singleQuestIn.topicNum = this.topicNum;
         this.quesArray.push(singleQuestIn);
-        var outObj = singleQuestObj = jQuery.extend(true, {}, singleQuestIn);
+        var outObj = jQuery.extend(true, {}, singleQuestIn);
         this.questNum++;
         return outObj;
     }
@@ -202,37 +203,61 @@ var questionObj = {
         };
     },
 
-    initFullQuestion: function( fullQuestionIn ) {
+    initFullQuestion: function (fullQuestionIn) {
         fullQuestionIn.guessedAnswer = 0;
-        fullQuestionIn.guessedTypedAnswer =  "";
+        fullQuestionIn.guessedTypedAnswer = "";
         fullQuestionIn.isGuessCorrect = false;
         fullQuestionIn.pointsEarned = 0;
-        fullQuestionIn.timeToAnswer = 0; 
-        return fullQuestionIn;            
+        fullQuestionIn.timeToAnswer = 0;
+        return fullQuestionIn;
     },
 
     addAllQuestFromPool: function (quizPoolIn, topicNumIn) {  //loads a questions to the array from 
         //quizPoolIn is a quizPool object
+        console.log("in loop");
         this.init();  //clear out the array
-        var numQuesInPool = quizPool.length;
+        var numQuesInPool = quizPoolIn.quesArray.length;
+        console.log("num ques = " + numQuesInPool);
         for (var i = 0; i < numQuesInPool; i++) {
-            if (quizPoolIn.quesArray[i].topicNum === topicNumIn) {
+            //take singleQuesObj from array and use for compare and pushin
+            var singleQuestObjFromPool = jQuery.extend(true, {}, quizPoolIn.quesArray[i]);
+            if (singleQuestObjFromPool.topicNum === topicNumIn) {
                 //topicNum matches, so need to clone a copy then push to array
-                this.initFullQuestion ( this.fullQuestion ); 
-                var questObjToSave = quizPoolIn.quesArray[i]  //this is singleQuestObj type
-
-
-                var tmpFullQuestion = this.fullQuestion;
-                this.fullQuestion.questFromPool = questObjToSave;
-                questObjToSave = jQuery.extend( true, {}, quizPoolIn.quesArray[i] );
-                this.initFullQuestion();
+                this.initFullQuestion(this.fullQuestion);
+                this.fullQuestion.questFromPool = jQuery.extend(true, {}, singleQuestObjFromPool);
+                this.allQuestionsOnQuiz.push(jQuery.extend(true, {}, this.fullQuestion));
             };
         };
+    },
+
+    displayQuestion: function( questionNumIn ) {
+        //displays the question on the HTML page
+        var questionDiv = $(configData.divQuestion);
+        var questionString = "<p><h2>" + this.allQuestionsOnQuiz[questionNumIn].questFromPool.questPrompt + " " + "</h2></p>";
+        var selectString = "<select>";
+        var radioButtonSelect_p1 = '<div class="radio"'; 
+        var radioButtonSelect_p2 = '<label>';
+        var HTMLstring = "";
+        var answerPrompts = [];  //array of strings
+        var answerHTMLprompts = [];
+        var tempString = "";
+        var tempString2 = "";
+        var numberAnswers = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt.length;
+        for( var i=0; i<numberAnswers; i++) {
+            //get answers and put into an array
+            tempString = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt[i];
+            answerPrompts.push( tempString );
+            tempString2 = '<option value="' + i + '">' + tempString + '</option>';
+            selectString = selectString + tempString2;
+            console.log( tempString + "  " + tempString2 );
+        };
+        selectString += '</select>';
+        HTMLstring = questionString + selectString + '</select>';
+        //$(configData.divQuestion).html( questionString );
+        questionDiv.html( HTMLstring );
     }
 };
 
-
-questionObj.init();
 
 
 var playerObj = {
@@ -336,6 +361,7 @@ var gameObj = {
     isGameOver: false,
     isGameLost: false,
     isGameWon: false,
+    questionNum: 0,
 
     init: function () {
         this.target = 0;
@@ -345,6 +371,7 @@ var gameObj = {
         this.isGameOver = false;
         this.isGameLost = false;
         this.isGameWon = false;
+        this.questionNum = 0;
     },
 
     update: function (allCrystalsIn) {
