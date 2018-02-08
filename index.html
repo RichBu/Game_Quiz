@@ -2,17 +2,17 @@
 <html lang="eng-us">
 
 
-<!--  index.html  of Hangman game -->
+<!--  index.html  of Quiz game -->
 
-<!-- by Rich Budek  02/05/2018        -->
-<!-- for NU Bootcamp.  Crystal    -->
+<!-- by Rich Budek  02/08/2018        -->
+<!-- for portfolio.  Quiz    -->
 
 
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rich Budek's Crystals Game Demo</title>
+    <title>Rich Budek's Quiz Game Demo</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- load in a reset of CSS  -->
@@ -30,6 +30,13 @@
         <!--  NavBar is loaded in JS based on id="navBarCommon" -->
         <!--  this makes the NavBar be the same across all the web pages -->
     </nav>
+
+    <!--  general layout: 
+            1. top row of Title and game buttons
+            2. middle div is Question
+                question div is picture on left column, question on the right
+                next row is button + img or text
+    -->
     <div class="container-fluid">
         <div class="row">
             <!-- top row, make it two columns for smaller screens -->
@@ -38,13 +45,13 @@
                 <div class="visible-lg-block visible-md-block hidden-sm hidden-xs">
                     <!-- <div>  -->
                     <p>
-                        <h1>Crystals</h1>
+                        <h1>Quiz Game</h1>
                     </p>
                 </div>
                 <div class="hidden-lg hidden-md visible-sm-block visible-xs-block">
                     <!-- <div>  -->
                     <p>
-                        <h1>Crystals</h1>
+                        <h1>Quiz Game</h1>
                     </p>
                 </div>
             </div>

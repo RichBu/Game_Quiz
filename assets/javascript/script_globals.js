@@ -1,5 +1,5 @@
 
-/*  Global variables  for Crystals Game  */
+/*  Global variables  for Quiz Game  */
 
 /* These are al of the scripts to control the 
 
@@ -43,6 +43,172 @@ var configData = {
 };
 
 
+var quizQuestArray = [];
+//var tempArray = [];
+//while( quizQuestArray.push( [] ) < 10 );
+
+
+var singleQuestObj = {
+    topicNum: 0,
+    questImgSrc: "",        //image if "" then no image
+    questPrompt: "",        //the actual question being asked
+    isAnswersImg: false,    //are the answers images ?
+    answersOptionLabels: [],       //A, B, C  or 1, 2, 3  or True / false
+    answersPrompt: [],       //array of strings with all answers
+    answersImgSrc: [],      //array of strings with all the source filenames
+    correctAnswer: 0,       //what is the correct answer
+    guessedTypedAnswer: "",  //if the user types in an answer
+    pointQuest: 0,
+    maxTimeToAnswer: 0        //how long to answer the questions
+};
+
+
+var quizPool = {  //all of the quizzes
+    topics: [],                         //topic of quiz
+    quesArray: [],                      //array of singleQuesObj
+  
+    //questions: [],                      //final struct is   [topic] [ "quest 1", "quest 2" ]
+    //answers: [],                        // [topic] [quest #] [ "answer 1", "answer 2", "answer 3" ]
+    topicNum: -1,
+    questNum: 0,
+
+    pushQuestion: function ( questArrayIn )  {
+        //pushes a question into the question array
+        this.questions.push( questArrayIn );
+    },
+
+    newTopic: function ( topicIn ) {
+        //pushes a new topic in and then creates new arrays of arrays
+        //this.questNum = 0;
+        this.topics.push( topicIn );
+        this.topicNum++;
+
+        //this.questions.push( this.topicNum );
+        //this.answers.push( this.topicNum ); 
+    },
+
+    pushFullQuestion: function( quesIn, answersIn ) {
+        //this.questions
+        this.questions.push( [ this.topicNum, this.questNum, quesIn ] );  //question
+        //this.answers.push( questNum );
+        this.answers.push( [this.topicNum,  this.questNum,  answersIn ] );   
+        this.questNum++;
+    }
+};
+
+singleQuestObj.topicNum = 0;
+singleQuestObj.questImgSrc = "";        
+singleQuestObj.questPrompt =  "What is a unit of measure for velocity";        
+singleQuestObj.isAnswersImg = false;    
+singleQuestObj.answersOptionLabels =  [];       
+singleQuestObj.answersPrompt = ["m/sec^3", "miles^2/min", "RPM", "MPH"];       
+singleQuestObj.answersImgSrc = [];      
+singleQuestObj.correctAnswer =  3;       
+singleQuestObj.guessedTypedAnswer = "";  
+singleQuestObj.pointQuest = 1;
+singleQuestObj.maxTimeToAnswer = 0;        
+
+
+/*
+quizPool.newTopic("Physics");
+quizPool.pushFullQuestion( "What is a unit of measure for velocity", ["m/sec^3", "miles^2/min", "RPM", "MPH"] );
+quizPool.pushFullQuestion( "Newtons Law can written as", ["F = m * a", "apples = oranges", "F = m * c^2", "E = MC^2"] );
+quizPool.pushFullQuestion( "What is the acceleration of gravity on earth", ["32 ft / sec ^2",  "9.81 ft / sec ^2",  "9.81 m / sec ^2", "23.5 ft / sec ^2"] );
+
+quizPool.newTopic("Star Wars");
+quizPool.pushFullQuestion( "What year was the original Star Wars released", ["1981", "1979", "1980", "1977"] );
+quizPool.pushFullQuestion( "What actor plays Luke Skywalker", ["George Harrison",  "Harrison Ford",  "Mark Hamill", "Jama Juice"] );
+quizPool.pushFullQuestion( "How old was Harrison Ford in the original Star Wars", ["40", "35", "22", "25"] );
+*/
+
+/*
+quizPool.pushFullQuestion( "", ["", "", "", ""] );
+
+
+
+
+//Star wars questions
+quizPool.pushQuestion(  
+    ["What year was Star Wars released",
+    "What actor plays Luke Skywalker",
+    "How old was Harrison Ford in the original Star Wars",
+    "How many Star Wars movies were made",
+    "Who is Luke Skywalker dad"
+] );
+
+ */   
+
+
+var questionObj = {
+    questNum: 0,  //the question number, can also be the index
+    questImgSrc: "",        //image if "" then no image
+    questPrompt: "",        //the actual question being asked
+    isAnswersImg: false,    //are the answers images ?
+    answersOptionLabels: [],       //A, B, C  or 1, 2, 3  or True / false
+    answersPrompt: [],       //array of strings with all answers
+    answersImgSrc: [],      //array of strings with all the source filenames
+    correctAnswer: 0,       //what is the correct answer
+    guessedAnswer: 0,       //what the user guesses
+    guessedTypedAnswer: "",  //if the user types in an answer
+    isGuessCorrect: false,
+    pointQuest: 0,          //points for this question
+    pointsEarned: 0,
+    timeToAnswer: 0,        //how long to answer the questions
+
+    init: function () {
+        this.questNum = 0;
+        this.questImgSrc = "";
+        this.questPrompt = "";
+        this.isAnswersImg = false;
+        this.answersOptionLabels = [];
+        this.answersPrompt = [];       //array of strings with all answers
+        this.answersImgSrc = [];      //array of strings with all the source filenames
+        this.correctAnswer = 0;       //what is the correct answer
+        this.guessedAnswer = -1;       //what the user guesseses ... index to answer.  -1 means did not answer
+        this.guessedTypedAnswer = "";  //if the user types in an answer
+        this.isGuessCorrect = false;
+        this.pointQuest = 0;
+        this.pointsEarned = 0;
+        this.timeToAnswer = 0;        //how long to answer the questions
+    },
+
+    addQuest: function () {  //loads a questions to the array
+
+    }
+};
+
+
+questionObj.init()
+
+
+var playerObj = {
+    name: "",
+    initials: "",
+    quizNum: 0,
+    totCorrect: 0,
+    totPoints: 0,
+    timeForTest: 0,
+
+    init: function () {
+        this.name = "";
+        this.initials = "";
+        this.quizNum = 0;
+        this.totCorrect = 0;
+        this.totPoints = 0;
+        this.timeForTest = 0;
+    }
+};
+
+
+var histScoresObj = {
+    player: playerObj,
+
+    init: function () {
+
+    }
+}
+
+
 //var configData =  configDataObj;
 
 var crystal = {
@@ -56,7 +222,7 @@ var crystal = {
     qtyPicked: 0,
     totVal: 0,
     cheatScore: 0,  //what val was when cheat bttn prs. stops score from jumping
-    histDisplay: false;  //display if in the history stack
+    histDisplay: false,  //display if in the history stack
 
 
     init: function (configDataIn, index) {
@@ -83,7 +249,7 @@ var crystal = {
 
     pickRandVal: function (configDataIn) {
         var rangeVal = (configDataIn.crystalRandMax - configDataIn.crystalRandMin)
-        this.currVal = Math.floor(Math.random() * rangeVal ) + configDataIn.crystalRandMin;
+        this.currVal = Math.floor(Math.random() * rangeVal) + configDataIn.crystalRandMin;
     },
 
     resetVal: function () {
@@ -160,7 +326,7 @@ var gameObj = {
     },
 
     pickRandVal: function (configDataIn) {
-        this.target = Math.floor(Math.random() * (configDataIn.scoreRandMax - configDataIn.scoreRandMin))  + configDataIn.scoreRandMin;
+        this.target = Math.floor(Math.random() * (configDataIn.scoreRandMax - configDataIn.scoreRandMin)) + configDataIn.scoreRandMin;
         this.isGameLost = false;
         this.isGameOver = false;
         this.isGameWon = false;
