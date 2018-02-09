@@ -18,7 +18,7 @@ const constWordLenMax = 20;
 var configData = {
     lblQuestNum: "#lblQuestNum",
     lblQuestLeft: "#lblQuestLeft",
-    lblLeft: "#lblLeft",
+    lblNumCorrect: "#lblNumCorrect",
     lblNumStones: "#lblNumStones",
     bttnNextQuest: "btnNextQuestion",
     divQuestion: "#question",
@@ -194,7 +194,7 @@ var questionObj = {
         timeToAnswer: 0        //how long to answer the questions    
     },
 
-    allQuestionsOnQuiz: [],  //all the questions on the quiz (an array) of questionObj
+    allQuestionsOnQuiz: [],  //all the questions on the quiz (an array) of fullQuestion
 
     init: function () {   //clear out all the questions
         var endVal = this.allQuestionsOnQuiz.length;
@@ -320,6 +320,8 @@ var gameObj = {
     isGameWon: false,
     isGameStartup: true,
     questionNum: 0,
+    questionCorrect: 0,
+    questionWrong: 0,
 
     init: function () {
         this.target = 0;
@@ -331,6 +333,8 @@ var gameObj = {
         this.isGameWon = false;
         this.isGameStartup = true;
         this.questionNum = 0;
+        this.questionCorrect = 0;
+        this.questionWrong = 0;
     },
 
     update: function () {
@@ -357,14 +361,15 @@ var gameObj = {
             var htmlString = "<p><h4>" + "Quiz Demonstration" + " " + "</h4></p>";
             htmlString += "<p><h4>" + "To start a new game, pick the PLAY button</p><p>and then you can select the category of the game and click the NEW GAME button" + " " + "</h4></p>";
             questionDiv.html(htmlString);
+        } else {
+            //not just starting up so write to the display
+            var questLeft = questionObj.allQuestionsOnQuiz.length - this.questionNum - 1;
+            console.log("left = " + questLeft);
+            $(configData.lblQuestLeft).text(questLeft);
+            $(configData.lblNumCorrect).text(this.questionCorrect;
+            $(configData.lblNumStones).text(this.numStones);
+            $(configData.lblQuestNum).text(this.questionNum + 1);
         };
-        //write to the display
-        var questLeft = questionObj.allQuestionsOnQuiz.length - this.questionNum;
-        console.log( questLeft );
-        $(configData.lblQuestLeft).text( questLeft );
-        $(configData.lblLeft).text(this.left);
-        $(configData.lblNumStones).text(this.numStones);
-        $(configData.lblQuestNum).text(this.questionNum);
     },
 
     gameObjNewGame: function () {
@@ -372,6 +377,8 @@ var gameObj = {
         this.isGameOver = false;
         this.isGameWon = false;
         this.isGameStartup = false;
+        this.questionCorrect = 0;
+        this.questionWrong = 0;
     },
 
     displayWonLost: function () {
@@ -413,13 +420,13 @@ var gameObj = {
         };
     },
 
-    whichAnswerPicked: function( ) {
+    whichAnswerPicked: function () {
         //command to find which radio button was pressed
         //all elements need a type = "radio"
         //should be jQuery, change later working now
         document.getElementById('question').scrollIntoView();
         var bttnAnswer = $("input[type=radio]:checked").val();
-        console.log( "button pressed = " + bttnAnswer );
+        console.log("button pressed = " + bttnAnswer);
         return bttnAnswer;
     }
 };
