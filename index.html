@@ -91,18 +91,10 @@
                     <!--                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">  -->
                     <div class="panel panel-info panelMinMargin ">
                         <div class="panel-heading panelMinPadding ">
-                            <span>question</span>
+                            <span>question #</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
-                            <span id="lblTarget" style="display: block; ">--</span>
-                        </div>
-                    </div>
-                    <div class="panel panel-info panelMinMargin ">
-                        <div class="panel-heading panelMinPadding ">
-                            <span>current</span>
-                        </div>
-                        <div class="panel-body panelMinPadding ">
-                            <span id="lblCurrent" style="display: block; ">--</span>
+                            <span id="lblQuestNum" style="display: block; ">--</span>
                         </div>
                     </div>
                     <div class="panel panel-info panelMinMargin ">
@@ -110,12 +102,20 @@
                             <span>left</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
+                            <span id="lblCurrent" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span>correct</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
                             <span id="lblLeft" style="display: block; ">--</span>
                         </div>
                     </div>
                     <div class="panel panel-info panelMinMargin ">
                         <div class="panel-heading panelMinPadding ">
-                            <span># right</span>
+                            <span>wrong</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
                             <span id="lblNumStones" style="display: block; ">--</span>
@@ -129,6 +129,9 @@
                             <span id="lblNumStones" style="display: block; ">--</span>
                         </div>
                     </div>
+                    <div>
+                    <button style="Float: left; " id="btnNextQuestion" class="bigButton " data-toggle="tooltip " title="Next Question">NEXT QUESTION</button>
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -220,7 +223,7 @@
             <p>These are the global settings to be used throughout the game</p>
             <div class="modal-footer">
                 <span>
-                    <button style="Float: left; " id="btnSetCheat" class="btn btn-default bigButton " data-toggle="tooltip " title="Sets left crystal (blue heart) for a value of 1 so can win for sure">Cheat</button>
+                    <button style="Float: left; " id="btnSetCheat" class="btn btn-default bigButton " data-toggle="tooltip " title="">Cheat</button>
                 </span>
             </div>
         </div>
@@ -264,7 +267,7 @@
                 possible answers to a question and to allow an image for a question as well as image answers to pick from
             </p>
             <p>Javascript and jQuery are the languages that do all of the processing and also manipulates the page's element's
-                using jQuery. All the crystals are stored as objects in an array and then placed into the collection area
+                using jQuery. are stored as objects in an array and then placed into the collection area
                 using jAppend.
             </p>
             <p>The windows is responsive (liquid) will change based on the size of the screen, with buttons moving, etc. as
@@ -336,16 +339,14 @@
 
 
             gameObj.init();   //init all the game variables
-            gameObj.isGameOver = true;  //first time thru loop, set game over
-            gameObj.update(allCrystals);  //recalc all the crystals
+            gameObj.isGameLost = false;
+            gameObj.isGameWon = false;
+            gameObj.isGameOver = false;  //first time thru loop, set game over
+            gameObj.isGameStartuop = true;
+            gameObj.update();  //recalc all the questions
+            
             gameObj.redraw(configData);
 
-            questionObj.init();
-
-            var pickSubject = prompt( "Which subject:  0=Physics 1=Star Wars");
-            var questionNum = parseInt(pickSubject);
-            questionObj.addAllQuestFromPool(quizPool, questionNum );
-            questionObj.displayQuestion( questionNum );
 
 
             function evalButtonPress() {
@@ -353,14 +354,13 @@
                 //or the keyboard
                 if (gameObj.isGameOver) {
                     //game ended so display the won or lost
-                    gameObj.displayWonLost(allCrystals);
+                    gameObj.displayWonLost();
                 } else {
                     var currentClickedBttn = $(this);
                     var buttonVal = currentClickedBttn.attr("data-crystal");
-                    allCrystals[buttonVal].qtyPicked++;
-                    gameObj.update(allCrystals);
+                    gameObj.update();
                     gameObj.redraw(configData);
-                    gameObj.displayWonLost(allCrystals);
+                    gameObj.displayWonLost();
                 };
             };
 

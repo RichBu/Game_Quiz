@@ -1,5 +1,5 @@
 
-/*  Scripts for Crystals Game  */
+/*  Scripts for Quiz Game  */
 
 /* These are al of the scripts to control the 
 

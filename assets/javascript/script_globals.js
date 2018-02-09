@@ -16,10 +16,11 @@
 const constWordLenMax = 20;
 
 var configData = {
-    lblTarget: "#lblTarget",
-    lblCurrent: "#lblCurrent",
+    lblQuestNum: "#lblQuestNum",
+    lblQuestLeft: "#lblQuestLeft",
     lblLeft: "#lblLeft",
     lblNumStones: "#lblNumStones",
+    bttnNextQuest: "btnNextQuestion",
     divQuestion: "#question",
     imgDir: "assets/images/",
     imgQty: 4,
@@ -32,12 +33,9 @@ var configData = {
         "Purple Rectangle",
         "Red Oval"
     ],
-    histQty: 5,  //how many history crystals to store
+    histQty: 5,  //how many history  to store
     //    color: [ rgb(43,79, 174)       ],
     //    colorNum: [ #2B4FAE, #FBBC18, #7D1C85, #A00019 ],
-    colorName: ["Blue", "Gold", "Purple", "Red"],
-    crystalRandMin: 1,
-    crystalRandMax: 12,
     scoreRandMin: 19,
     scoreRandMax: 120,
     isShowButtonVal: false
@@ -87,6 +85,9 @@ var quizPool = {  //all of the quizzes
     }
 };
 
+
+//load question and topic manually for now,
+//use JSON file in the future
 quizPool.newTopic("Physics");
 singleQuestObj.topicNum = 0;
 singleQuestObj.questImgSrc = "";
@@ -129,7 +130,7 @@ singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
 
 quizPool.newTopic("Star Wars");
-singleQuestObj.topicNum = 0;
+singleQuestObj.topicNum = 1;
 singleQuestObj.questImgSrc = "";
 singleQuestObj.questPrompt = "What year was the original Star Wars released";
 singleQuestObj.isAnswersImg = false;
@@ -142,7 +143,7 @@ singleQuestObj.pointQuest = 1;
 singleQuestObj.maxTimeToAnswer = 0;
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 0;
+singleQuestObj.topicNum = 1;
 singleQuestObj.questImgSrc = "";
 singleQuestObj.questPrompt = "What actor plays Luke Skywalker";
 singleQuestObj.isAnswersImg = false;
@@ -155,7 +156,7 @@ singleQuestObj.pointQuest = 1;
 singleQuestObj.maxTimeToAnswer = 0;
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 0;
+singleQuestObj.topicNum = 1;
 singleQuestObj.questImgSrc = "";
 singleQuestObj.questPrompt = "How old was Harrison Ford in the original Star Wars";
 singleQuestObj.isAnswersImg = false;
@@ -168,7 +169,7 @@ singleQuestObj.pointQuest = 1;
 singleQuestObj.maxTimeToAnswer = 0;
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 0;
+singleQuestObj.topicNum = 1;
 singleQuestObj.questImgSrc = "";
 singleQuestObj.questPrompt = "Who is Luke Skywalkers dad";
 singleQuestObj.isAnswersImg = false;
@@ -230,31 +231,46 @@ var questionObj = {
         };
     },
 
-    displayQuestion: function( questionNumIn ) {
+    displayQuestion: function () {
         //displays the question on the HTML page
-        var questionDiv = $(configData.divQuestion);
-        var questionString = "<p><h2>" + this.allQuestionsOnQuiz[questionNumIn].questFromPool.questPrompt + " " + "</h2></p>";
-        var selectString = "<select>";
-        var radioButtonSelect_p1 = '<div class="radio"'; 
-        var radioButtonSelect_p2 = '<label>';
-        var HTMLstring = "";
-        var answerPrompts = [];  //array of strings
-        var answerHTMLprompts = [];
-        var tempString = "";
-        var tempString2 = "";
-        var numberAnswers = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt.length;
-        for( var i=0; i<numberAnswers; i++) {
-            //get answers and put into an array
-            tempString = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt[i];
-            answerPrompts.push( tempString );
-            tempString2 = '<option value="' + i + '">' + tempString + '</option>';
-            selectString = selectString + tempString2;
-            console.log( tempString + "  " + tempString2 );
+        //only if not game over 
+        if (!gameObj.isGameOver && !gameObj.isGameStartup) {
+            var questionNumIn = gameObj.questionNum;
+            var questionDiv = $(configData.divQuestion);
+            var questionString = "<p><h2>" + this.allQuestionsOnQuiz[questionNumIn].questFromPool.questPrompt + " " + "</h2></p>";
+            var selectString = "<select>";
+            var raddioSelectString = "";
+
+            var radioButtonSelect_p1 = '<div class="radio">';
+            var radioButtonSelect_p2 = '<label><input type="radio" name="optradio" value="';
+            var radioButtonSelect_p3 = '">';
+            var radioButtonSelectTot = "";
+
+            var HTMLstring = "";
+            var answerPrompts = [];  //array of strings
+            var answerHTMLprompts = [];
+            var tempString = "";
+            var tempString2 = "";
+            var numberAnswers = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt.length;
+            HTMLstring = questionString;
+            for (var i = 0; i < numberAnswers; i++) {
+                //get answers and put into an array
+                tempString = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt[i];
+                answerPrompts.push(tempString);
+                tempString2 = '<option value="' + i + '">' + tempString + '</option>';
+                radioButtonSelectTot = radioButtonSelect_p1 + radioButtonSelect_p2;
+                radioButtonSelectTot += i + radioButtonSelect_p3;
+                radioButtonSelectTot += tempString + '</label></div>';
+                selectString = selectString + tempString2;
+                //raddioSelectString = radioButtonSelect_p1 + radioButtonSelect_p2 + i;
+                HTMLstring += radioButtonSelectTot;
+            };
+            selectString += '</select>';
+            //HTMLstring = questionString + selectString + '</select>';
+            //HTMLstring = questionString + radioButtonSelectTot;
+            //$(configData.divQuestion).html( questionString );
+            questionDiv.html(HTMLstring);
         };
-        selectString += '</select>';
-        HTMLstring = questionString + selectString + '</select>';
-        //$(configData.divQuestion).html( questionString );
-        questionDiv.html( HTMLstring );
     }
 };
 
@@ -280,6 +296,8 @@ var playerObj = {
 
 
 var histScoresObj = {
+    //will store historical data for 
+    //not just high / low scores but also which questions missed
     player: playerObj,
 
     init: function () {
@@ -289,67 +307,6 @@ var histScoresObj = {
 
 
 //var configData =  configDataObj;
-
-var crystal = {
-    //    color: 0,
-    imgName: "",
-    fileName: "",
-    htmlId: "",
-    colorDraw: 0,
-    colorName: "",
-    currVal: 0,
-    qtyPicked: 0,
-    totVal: 0,
-    cheatScore: 0,  //what val was when cheat bttn prs. stops score from jumping
-    histDisplay: false,  //display if in the history stack
-
-
-    init: function (configDataIn, index) {
-        //initialize the values of the crystal
-        //this[index].color = 0;
-        this.imgName = "";
-        this.fileName = "";
-        this.htmlId = "";
-        this.colorDraw = 0;
-        this.colorName = "";
-        this.currVal = 0;
-        this.qtyPicked = 0;
-        this.totVal = 0;
-        this.cheatScore = 0;
-        this.histDisplay = false;
-        if (index <= configDataIn.imgFiles.length) {
-            this.imgName = configDataIn.name[index];
-            this.fileName = configDataIn.imgDir + configDataIn.imgFiles[index];
-            this.name = configDataIn.name[index];
-            //this.colorDraw = configDataIn.color[crysNumIn];
-            this.colorName = configDataIn.colorName[index];
-        };
-    },
-
-    pickRandVal: function (configDataIn) {
-        var rangeVal = (configDataIn.crystalRandMax - configDataIn.crystalRandMin)
-        this.currVal = Math.floor(Math.random() * rangeVal) + configDataIn.crystalRandMin;
-    },
-
-    resetVal: function () {
-        //rest the values 
-        this.currVal = 0;
-        this.qtyPicked = 0;
-        this.totVal = 0;
-        this.cheatScore = 0;
-    },
-
-    setCheatValue: function () {
-        //sets the crystal value = 1 so can guarantee a win
-        this.cheatScore = this.cheatScore + this.currVal - 1;
-        if (this.cheatScore < 0) { this.cheatScore = 0; }
-        this.currVal = 1;
-    }
-};
-
-
-var allCrystals = [];
-var histCrystals = [];  //history of which ones picked is shown at the top
 
 
 
@@ -361,6 +318,7 @@ var gameObj = {
     isGameOver: false,
     isGameLost: false,
     isGameWon: false,
+    isGameStartup: true,
     questionNum: 0,
 
     init: function () {
@@ -371,21 +329,13 @@ var gameObj = {
         this.isGameOver = false;
         this.isGameLost = false;
         this.isGameWon = false;
+        this.isGameStartup = true;
         this.questionNum = 0;
     },
 
-    update: function (allCrystalsIn) {
+    update: function () {
         //will update all of the scores
-        this.score = 0;
-        this.numStones = 0;
-        for (var i = 0; i < allCrystalsIn.length; i++) {
-            //loop thru all the crystals and updata all the scores
-            //so value doesn't "jump" after pressing cheat button
-            var cheatScore = allCrystalsIn[i].cheatScore;
-            this.numStones += allCrystalsIn[i].qtyPicked;
-            allCrystalsIn[i].totVal = cheatScore + allCrystalsIn[i].qtyPicked * allCrystalsIn[i].currVal;
-            this.score += allCrystalsIn[i].totVal;
-        };
+        /*
         this.left = this.target - this.score;
         if (this.left < 0) {
             this.isGameLost = true;
@@ -396,38 +346,81 @@ var gameObj = {
             this.isGameWon = true;
             this.isGameOver = true;
         };
+        */
     },
 
-    redraw: function (configDataIn) {
+    redraw: function () {
+        if (this.isGameStartup) {
+            //game just started up
+            var questionDiv = $(configData.divQuestion);
+            //questionDiv.empty();
+            var htmlString = "<p><h4>" + "Quiz Demonstration" + " " + "</h4></p>";
+            htmlString += "<p><h4>" + "To start a new game, pick the PLAY button</p><p>and then you can select the category of the game and click the NEW GAME button" + " " + "</h4></p>";
+            questionDiv.html(htmlString);
+        };
         //write to the display
-        $(configDataIn.lblCurrent).text(this.score);
-        $(configDataIn.lblLeft).text(this.left);
-        $(configDataIn.lblNumStones).text(this.numStones);
-        $(configDataIn.lblTarget).text(this.target);
+        var questLeft = questionObj.allQuestionsOnQuiz.length - this.questionNum;
+        console.log( questLeft );
+        $(configData.lblQuestLeft).text( questLeft );
+        $(configData.lblLeft).text(this.left);
+        $(configData.lblNumStones).text(this.numStones);
+        $(configData.lblQuestNum).text(this.questionNum);
     },
 
-    pickRandVal: function (configDataIn) {
-        this.target = Math.floor(Math.random() * (configDataIn.scoreRandMax - configDataIn.scoreRandMin)) + configDataIn.scoreRandMin;
+    gameObjNewGame: function () {
         this.isGameLost = false;
         this.isGameOver = false;
         this.isGameWon = false;
+        this.isGameStartup = false;
     },
 
-    displayWonLost: function (allCrystalsIn) {
+    displayWonLost: function () {
         if (this.isGameWon) {
             modalOverWon.style.display = "block";
-            var textOut = "You placed " + this.numStones + " crystals. ";
-            textOut += "Crystal values from left to right are: " + allCrystalsIn[0].currVal + " " + allCrystalsIn[1].currVal + " " + allCrystalsIn[2].currVal + " " + allCrystalsIn[3].currVal;
+            var textOut = "";
             $("#modWonAnswer").text(textOut);
         } else if (this.isGameLost) {
             modalOverLost.style.display = "block";
-            var textOut = "You placed " + this.numStones + " but you were over by " + (-1 * this.left) + " points. ";
-            textOut += "Crystal values from left to right are: " + allCrystalsIn[0].currVal + " " + allCrystalsIn[1].currVal + " " + allCrystalsIn[2].currVal + " " + allCrystalsIn[3].currVal;
+            var testOut = "";
             $("#modLostAnswer").text(textOut);
         } else if (this.target === 0) {
             //game was never started
             modalGameBlank.style.display = "block";
         };
+    },
+
+    nextQuestion: function () {
+        //incrment question # and then display the screen
+        this.whichAnswerPicked();
+        if (gameObj.isGameStartup) {
+            //gameObj.redraw();
+            modalGameBlank.style.display = "block";
+        } else if (!gameObj.isGameOver) {
+            if (this.questionNum >= questionObj.allQuestionsOnQuiz.length - 1) {
+                //the game is over
+                this.isGameOver = true;
+                //this.questionNum = 0;
+                modalGameOver.style.display = "block";
+            } else {
+                this.questionNum++;
+                gameObj.redraw();
+                questionObj.displayQuestion();
+            };
+        } else {
+            //game is over so put message back up
+            gameObj.redraw();
+            modalGameOver.style.display = "block";
+        };
+    },
+
+    whichAnswerPicked: function( ) {
+        //command to find which radio button was pressed
+        //all elements need a type = "radio"
+        //should be jQuery, change later working now
+        document.getElementById('question').scrollIntoView();
+        var bttnAnswer = $("input[type=radio]:checked").val();
+        console.log( "button pressed = " + bttnAnswer );
+        return bttnAnswer;
     }
 };
 
@@ -446,15 +439,15 @@ var playObj = {
         this.playState = 0;
     },
 
-    startNewGame: function (configDataIn, allCrystalsIn) {
+    startNewGame: function (configDataIn) {
         //everything needed for a new game
-        //loop thru all the crystals and set random values
-        for (var i = 0; i < allCrystalsIn.length; i++) {
-            allCrystalsIn[i].resetVal();
-            allCrystalsIn[i].pickRandVal(configData);
-        };
-        gameObj.pickRandVal(configDataIn);
-        gameObj.update(allCrystalsIn);
+        var pickSubject = prompt("Have not finished with selection for subject area.\nSo have to use prompt\n\nWhich subject:  0=Physics 1=Star Wars");
+        var subjectPicked = parseInt(pickSubject);
+        questionObj.addAllQuestFromPool(quizPool, subjectPicked);
+        gameObj.isGameStartup = false;
+        questionObj.displayQuestion();
+        gameObj.gameObjNewGame();
+        gameObj.update();
         gameObj.redraw(configDataIn);
     }
 };

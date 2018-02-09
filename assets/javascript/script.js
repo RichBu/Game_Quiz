@@ -1,6 +1,6 @@
 
 /* script.js  by Rich Budek 01/30/2018  */
-/*            for Crystals  */
+/*            for Quiz Demo */
 
 /* routine to make a common nav bar across all of the pages */
 
