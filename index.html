@@ -21,7 +21,7 @@
     <!-- load my style sheet -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <!-- load FontAwesome -->
-    <script src="https://use.fontawesome.com/f41d7d3328.js"></script>
+    <!-- <script src="https://use.fontawesome.com/f41d7d3328.js"></script> -->
 </head>
 
 <body>
@@ -118,7 +118,15 @@
                             <span>wrong</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
-                            <span id="lblNumStones" style="display: block; ">--</span>
+                            <span id="lblNumWrong" style="display: block; ">--</span>
+                        </div>
+                    </div>
+                    <div class="panel panel-info panelMinMargin ">
+                        <div class="panel-heading panelMinPadding ">
+                            <span>blank</span>
+                        </div>
+                        <div class="panel-body panelMinPadding ">
+                            <span id="lblNumBlank" style="display: block; ">--</span>
                         </div>
                     </div>
                     <div class="panel panel-info panelMinMargin ">
@@ -126,12 +134,12 @@
                             <span>time left</span>
                         </div>
                         <div class="panel-body panelMinPadding ">
-                            <span id="lblNumStones" style="display: block; ">--</span>
+                            <span id="lblTimeLeft" style="display: block; ">--</span>
                         </div>
                     </div>
                     <div>
-                    <button style="Float: left; " id="btnNextQuestion" class="bigButton " data-toggle="tooltip " title="Next Question">NEXT QUESTION</button>
-                </div>
+                        <button style="Float: left; " id="btnNextQuestion" class="bigButton " data-toggle="tooltip " title="Next Question">NEXT QUESTION</button>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -174,16 +182,17 @@
             <p>To play again, press the PLAY button and then pick NEW GAME</p>
         </div>
     </div>
-    <!-- Key Duplicate modal -->
-    <div id="modKeyDup" class="modal">
+    <!-- Answer Result modal -->
+    <div id="modAnswerResult" class="modal">
         <div class="modal-content">
-            <span id="closeModKeyDup" class="close">&times;</span>
-            <h2>
-                <p>You tried that already</p>
-            </h2>
-            <p> </p>
-            <p>I would really like to take some points away for trying the same letter again I won't. Do you really expect a
-                different result ?</p>
+            <span id="closeAnswerResult" class="close">&times;</span>
+            <div id="modAnswerDiv">
+                <h2>
+                    <p>Answer result</p>
+                </h2>
+                <p> </p>
+                <p>Next Question</p>
+            </div>
         </div>
     </div>
     <!-- Game Over -->
@@ -193,9 +202,9 @@
             <h2>
                 <p>Game is Over</p>
             </h2>
-            <p> </p>
-            <p>To play again, press the PLAY button and then pick NEW GAME</p>
-            <p>To view the answer again, press the WORDS button and then click on Answer</p>
+            <div id="modGameOverResults"><h4>test data</h4></div>
+            <p><h4>To play again, press the PLAY button and then pick NEW GAME<br/>
+            To get more results click the RESULT button</h4></p>
         </div>
     </div>
     <!-- MODAL GameBlank -->
@@ -267,8 +276,7 @@
                 possible answers to a question and to allow an image for a question as well as image answers to pick from
             </p>
             <p>Javascript and jQuery are the languages that do all of the processing and also manipulates the page's element's
-                using jQuery. are stored as objects in an array and then placed into the collection area
-                using jAppend.
+                using jQuery. are stored as objects in an array and then placed into the collection area using jAppend.
             </p>
             <p>The windows is responsive (liquid) will change based on the size of the screen, with buttons moving, etc. as
                 the screen width changes. Dialog is presented to the user using modals.
@@ -337,14 +345,16 @@
             var bttnImgNew;  //actual image
 
 
-
+            //startup the main loop and reset variables
+            //no time to clean up everything some may be reset
+            //twice, but thats ok for now.
             gameObj.init();   //init all the game variables
             gameObj.isGameLost = false;
             gameObj.isGameWon = false;
             gameObj.isGameOver = false;  //first time thru loop, set game over
             gameObj.isGameStartuop = true;
             gameObj.update();  //recalc all the questions
-            
+
             gameObj.redraw(configData);
 
 
@@ -364,7 +374,74 @@
                 };
             };
 
+            $("#btnNewGame").on("click", startNewGameButtonPressed);
 
+            function startNewGameButtonPressed() {
+                //multiple entry paths
+                //close the play modal just to be sure
+                modalPlay.style.display = "none";
+
+                //set values for new screen, they are in gameObj
+                playObj.startNewGame(configData);
+                gameObj.redraw();
+                questionObj.displayQuestion();
+                gameObj.questionNum = -1; //because it inc on start of f()
+                nextQuestionStart();
+                //call next screen button
+            };
+
+            $("#" + configData.bttnNextQuest).on("click", nextQuestionStart);
+            function nextQuestionStart() {
+                //pulls up new question
+                //does NOT check if last questions should have been made prior to calling
+                //gameObj questNum  should have already been incremented
+                //display the question
+                console.log("next quest start");
+                gameObj.nextQuestion();
+                //check if the game is over
+                if (!gameObj.isGameOver) {
+                    //start the timer
+                    if (questTimer != undefined) {
+                        //timer has been set
+                        clearInterval(questTimer);
+                    };
+                    gameObj.tmrQuestCount = configData.tmrPerQuest;
+                    questTimer = setInterval(tmrScreenCountPulse, 1000);
+                } else {
+                    //game is over
+                    //modal alread brought up in gameObj.nextQuestion
+                }
+            };
+
+            function tmrScreenCountPulse() {
+                //called for every second pulse
+                //decrement gameObj.tmrAnsweCount
+                gameObj.tmrQuestCount--;
+                //if the count <= 0 then timed out
+                if (gameObj.tmrQuestCount <= 0) {
+                    //timed out
+                    clearInterval(questTimer);
+                    //call function to pull result with timer
+                    dispResultStart();
+                } else {
+                    gameObj.redraw();
+                };
+            };
+
+            function dispResultStart() {
+                //displays the result
+                questionObj.evaluateQuestion(gameObj.questionNum);
+                gameObj.displayRightWrong(gameObj.questionNum);
+                resultTimer = setTimeout(dispResultStop, configData.tmrAnswerResult * 1000);
+            };
+
+            function dispResultStop() {
+                //disp result timer has timed out
+                //close out the results
+                clearTimeout(resultTimer);
+                modalAnswerResult.style.display = "none";
+                nextQuestionStart();
+            };
 
             //here is the main loop now for key presses
             document.onkeyup = function (event) {

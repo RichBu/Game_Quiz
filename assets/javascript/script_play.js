@@ -10,24 +10,10 @@
 
     */
 
-    var modalKeyDup = document.getElementById('modKeyDup');
-
     var btnNewGame = document.getElementById("btnNewGame");
     var btnSetCheat = document.getElementById("btnSetCheat");
     var btnNextQuestion = document.getElementById( configData.bttnNextQuest );
 
-    btnNewGame.onclick = function () {
-        //starting a new game is in the playObj
-        playObj.startNewGame( configData );
-        console.log( "startup = " + gameObj.isGameStartup );
-        modalPlay.style.display = "none";
-    };
-
-
-    btnNextQuestion.onclick = function () {
-        //starting a new game is in the playObj
-        gameObj.nextQuestion();
-    };
     
 
 

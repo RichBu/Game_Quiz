@@ -18,9 +18,9 @@ var modalHiScores = document.getElementById('modHiScores');
 var modalPlay = document.getElementById('modPlay');
 var modalOverWon = document.getElementById('modOverWon');
 var modalOverLost = document.getElementById('modOverLost');
-var modalKeyDup = document.getElementById('modKeyDup');
 var modalGameOver = document.getElementById('modGameOver');
 var modalGameBlank = document.getElementById('modGameBlank');
+var modalAnswerResult = document.getElementById('modAnswerResult');
 
 // Get the button that opens the modal
 var btnHelp = document.getElementById("btnHelp");
@@ -88,10 +88,6 @@ closeModOverLost.onclick = function () {
     modalOverLost.style.display = "none";
 }
 
-closeModKeyDup.onclick = function () {
-    modalKeyDup.style.display = "none";
-}
-
 closeModGameOver.onclick = function () {
     modalGameOver.style.display = "none";
 }
@@ -126,9 +122,6 @@ window.onclick = function (event) {
     }
     if (event.target == modalOverLost) {
         modalOverLost.style.display = "none";
-    }
-    if (event.target == modalKeyDup) {
-        modalKeyDup.style.display = "none";
     }
     if (event.target == modalGameOver) {
         modalGameOver.style.display = "none";
