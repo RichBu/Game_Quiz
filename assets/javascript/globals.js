@@ -7,9 +7,6 @@
     throughout the game.  Placed in separate 
     file so that can find them there.
 
-    Will probably only work with Hangman game
-    the routines are all element id driven 
-
     */
 
 
@@ -24,6 +21,7 @@ var configData = {
     lblTimeLeft: "#lblTimeLeft",
     bttnNextQuest: "btnNextQuestion",
     divQuestion: "#question",
+    divAnswerButtons: "#answer_buttons",
     divAnswerResult: "#modAnswerDiv",
     divGameOverResult: "#modGameOverResults",
     imgDir: "assets/images/",
@@ -40,6 +38,7 @@ var configData = {
 
 var questTimer;
 var resultTimer;
+var evalButtonPress;
 
 
 var quizQuestArray = [];
@@ -88,110 +87,164 @@ var quizPool = {  //all of the quizzes
 //load question and topic manually for now,
 //use JSON file in the future
 quizPool.newTopic("Science");
-singleQuestObj.topicNum = 0;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "What is a unit of measure for velocity";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["m/sec^3", "miles^2/min", "RPM", "MPH"];
-singleQuestObj.answersImgSrc = ["", "", "", "ans_MPH.png"];
-singleQuestObj.correctAnswer = 3;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+singleQuestObj = {
+    topicNum: 0,
+    questImgSrc: "",
+    questPrompt: "What is a unit of measure for velocity",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["m/sec^3", "miles^2/min", "RPM", "MPH"],
+    answersImgSrc: ["", "", "", "ans_MPH.png"],
+    correctAnswer: 3,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 0;
-singleQuestObj.questImgSrc = "ans_carnation.png";
-singleQuestObj.questPrompt = "What kind of flower is this";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["Lily", "Rose", "Carnation", "Sunflower"];
-singleQuestObj.answersImgSrc = ["", "", "ans_carnation.png", ""];
-singleQuestObj.correctAnswer = 2;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+singleQuestObj = {
+    topicNum: 0,
+    questImgSrc: "",
+    questPrompt: "Newton's equation can be stated as F = m * a",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["True", "False"],
+    answersImgSrc: ["ans_Newton.png", ""],
+    correctAnswer: 0,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
-/*
-singleQuestObj.topicNum = 0;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "Newtons Law can written as";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["F = m * a", "apples = oranges", "F = m * c^2", "E = MC^2"];
-singleQuestObj.answersImgSrc = ["ans_Newton.png", "", "", ""];
-singleQuestObj.correctAnswer = 0;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+
+singleQuestObj = {
+    topicNum: 0,
+    questImgSrc: "ans_carnation.png",
+    questPrompt: "What kind of flower is this",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["Lily", "Rose", "Carnation", "Sunflower"],
+    answersImgSrc: ["", "", "ans_carnation.png", ""],
+    correctAnswer: 2,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
-*/
-singleQuestObj.topicNum = 0;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "What is the acceleration of gravity on earth";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["32 ft / sec ^2", "9.81 ft / sec ^2", "9.81 m / sec ^3", "23.5 ft / sec ^2"];
-singleQuestObj.answersImgSrc = ["ans_gravity.png", "", "", ""];
-singleQuestObj.correctAnswer = 0;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+singleQuestObj = {
+    topicNum: 0,
+    questImgSrc: "",
+    questPrompt: "Which cell type is a nervous system cell",
+    isAnswersImg: true,
+    answersOptionLabels: [],
+    answersPrompt: ["A", "B", "C", "D"],
+    answersImgSrc: ["ans_cell_muscle.png", "ans_cell_nerve.png", "ans_cell_stem.png", "ans_cell_blood.png"],
+    correctAnswer: 1,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
 
 quizPool.newTopic("Star Wars");
-singleQuestObj.topicNum = 1;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "What year was the original Star Wars released";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["1981", "1979", "1980", "1977"];
-singleQuestObj.answersImgSrc = [];
-singleQuestObj.correctAnswer = 3;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+singleQuestObj = {
+    topicNum: 1,
+    questImgSrc: "",
+    questPrompt: "What year was the original Star Wars released",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["1981", "1979", "1980", "1977"],
+    answersImgSrc: ["", "", "", "ans_1977.png"],
+    correctAnswer: 3,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 1;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "What actor plays Luke Skywalker";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["George Harrison", "Harrison Ford", "Mark Hamill", "Jama Juice"];
-singleQuestObj.answersImgSrc = [];
-singleQuestObj.correctAnswer = 2;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+singleQuestObj = {
+    topicNum: 1,
+    questImgSrc: "",
+    questPrompt: "Which craft would be the Resistance Bomber",
+    isAnswersImg: true,
+    answersOptionLabels: [],
+    answersPrompt: ["A", "B", "C", "D"],
+    answersImgSrc: ["ans_TieFighter.png", "ans_ResistanceXwing.png", "ans_resistance_bomber.png", "ans_Falcon.png"],
+    correctAnswer: 2,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 1;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "How old was Harrison Ford in the original Star Wars";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["40", "35", "22", "25"];
-singleQuestObj.answersImgSrc = [];
-singleQuestObj.correctAnswer = 3;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+singleQuestObj = {
+    topicNum: 1,
+    questImgSrc: "",
+    questPrompt: "What actor plays Luke Skywalker",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["George Harrison", "Harrison Ford", "Mark Hamill", "Jama Juice"],
+    answersImgSrc: ["", "", "ans_LukeSky.png", ""],
+    correctAnswer: 2,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
-singleQuestObj.topicNum = 1;
-singleQuestObj.questImgSrc = "";
-singleQuestObj.questPrompt = "Who is Luke Skywalkers dad";
-singleQuestObj.isAnswersImg = false;
-singleQuestObj.answersOptionLabels = [];
-singleQuestObj.answersPrompt = ["Relo", "Dark Vader", "The Emperor", "Fr. Timothy"];
-singleQuestObj.answersImgSrc = [];
-singleQuestObj.correctAnswer = 1;
-singleQuestObj.guessedTypedAnswer = "";
-singleQuestObj.pointQuest = 1;
-singleQuestObj.maxTimeToAnswer = 0;
+
+singleQuestObj = {
+    topicNum: 1,
+    questImgSrc: "",
+    questPrompt: "How old was Harrison Ford in the original Star Wars",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["40", "35", "22", "25"],
+    answersImgSrc: ["", "", "", "ans_HarrisonFord.png"],
+    correctAnswer: 3,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
+
+
+singleQuestObj = {
+    topicNum: 1,
+    questImgSrc: "ans_thala.png",
+    questPrompt: "What is this characters name ",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["Geese Stormer", "Thala-Siren", "Vulptex", "R2D2"],
+    answersImgSrc: ["", "ans_thala.png", "", ""],
+    correctAnswer: 1,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
+singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
+
+
+singleQuestObj = {
+    topicNum: 1,
+    questImgSrc: "",
+    questPrompt: "Who is Luke Skywalkers dad",
+    isAnswersImg: false,
+    answersOptionLabels: [],
+    answersPrompt: ["Relo", "Dark Vader", "The Emperor", "Fr. Timothy"],
+    answersImgSrc: ["", "ans-DarthVader.png", "", ""],
+    correctAnswer: 1,
+    guessedTypedAnswer: "",
+    pointQuest: 1,
+    maxTimeToAnswer: 0
+};
 singleQuestObj = quizPool.pushFullQuestion(singleQuestObj);
 
 
@@ -250,11 +303,12 @@ var questionObj = {
         if (!gameObj.isGameOver && !gameObj.isGameStartup) {
             var questionNumIn = gameObj.questionNum;
             var questionDiv = $(configData.divQuestion);
+            var buttonDiv = $(configData.divAnswerButtons);
             // find out if the question is an image question
             var imgQuestLink = questionObj.retImgLinkQuestion(questionNumIn);
             var imgQuestTag = $("<img/>");
             var isThereQuestImg;
-            if ( imgQuestLink==="" || imgQuestLink===undefined ) {
+            if (imgQuestLink === "" || imgQuestLink === undefined) {
                 //link came back empty or error 
                 isThereQuestImg = false;
             } else {
@@ -265,13 +319,6 @@ var questionObj = {
                 $(imgQuestTag).attr("height", 150);
             }
             var questionString = "<p><h2>" + questionObj.retQuestPrompt(questionNumIn) + " " + "</h2></p>";
-            var selectString = "<select>";
-            var radioSelectString = "";
-
-            var radioButtonSelect_p1 = '<div class="radio">';
-            var radioButtonSelect_p2 = '<label><input type="radio" name="optradio" value="';
-            var radioButtonSelect_p3 = '">';
-            var radioButtonSelectTot = "";
 
             var bttnTag;
             var HTMLstring = "";
@@ -281,30 +328,44 @@ var questionObj = {
             var tempString2 = "";
             var numberAnswers = this.allQuestionsOnQuiz[questionNumIn].questFromPool.answersPrompt.length;
             HTMLstring = questionString;
+            $(questionDiv).html(""); //clear out the area
+            $(buttonDiv).html(""); //clear out the area
+            var questionTag = $("<P>");
+            $("<h2>" + questionString + "</h2>").appendTo(questionTag);
+            $(questionTag).appendTo(questionDiv);  //put question tag onto page
             for (var i = 0; i < numberAnswers; i++) {
                 //get answers and put into an array
                 bttnTag = $("<button>"); //get new button
-                $(bttnTag).attr("data-answer",i); //adds button # to button
+                $(bttnTag).addClass("btn-success btn-lg btn-group-vertical btn-answers");
+                $(bttnTag).css("margin", "5px");
+                $(bttnTag).attr("data-answer", i); //adds button # to button
 
                 tempString = this.retAnswerChoiceString(questionNumIn, i);
                 $(bttnTag).text(tempString);
-                /*
-                answerPrompts.push(tempString);
-                tempString2 = '<option value="' + i + '">' + tempString + '</option>';
-                radioButtonSelectTot = radioButtonSelect_p1 + radioButtonSelect_p2;
-                radioButtonSelectTot += i + radioButtonSelect_p3;
-                radioButtonSelectTot += tempString + '</label></div>';
-                selectString = selectString + tempString2;
-                //radioSelectString = radioButtonSelect_p1 + radioButtonSelect_p2 + i;
-                HTMLstring += radioButtonSelectTot;
-                */
+                //need a div for every button to put it on a row
+                if (questionObj.retIsQuestionAnsAllImg(questionNumIn)) {
+                    //if all images for answers, don't put each button on it's own row
+                    var imgButtonTag = $("<img/>");
+                    var imgAnswerLink = questionObj.retImgLinkAnswer(questionNumIn, i);
+                    $(imgButtonTag).attr("src", configData.imgDir + imgAnswerLink);
+                    $(imgButtonTag).attr("width", 100);
+                    $(imgButtonTag).attr("height", 100);
+                    $(imgButtonTag).appendTo(bttnTag);
+                    $(bttnTag).appendTo(buttonDiv);
+                } else {
+                    //if the answer buttons are not all images then
+                    //but them each in their own div and their own row
+                    $(bttnTag).css("width", "50%");   //long buttons if all text
+                    var buttonIndDiv = $("<div>");
+                    $(buttonIndDiv).addClass("row");
+                    //button goes into individual DIV
+                    $(bttnTag).appendTo(buttonIndDiv);
+                    //push div to main button div section
+                    $(buttonIndDiv).appendTo(buttonDiv);
+                };
             };
-            selectString += '</select>';
-            //HTMLstring = questionString + selectString + '</select>';
-            //HTMLstring = questionString + radioButtonSelectTot;
-            //$(configData.divQuestion).html( questionString );
-            questionDiv.html(HTMLstring);
-            if (isThereQuestImg ) { $(imgQuestTag).prependTo( questionDiv ); };
+            if (isThereQuestImg) { $(imgQuestTag).appendTo(questionDiv); };
+            //add on click event to all buttons
         };
     },
 
@@ -332,6 +393,12 @@ var questionObj = {
             this.allQuestionsOnQuiz[qNum].isGuessWrong = true;
             gameObj.questionWrong++;
         };
+    },
+
+    retIsQuestionAnsAllImg: function (questNum) {
+        var outVal = false;
+        outVal = this.allQuestionsOnQuiz[questNum].questFromPool.isAnswersImg;
+        return outVal;
     },
 
     retQuestPrompt: function (questNum) {
@@ -391,6 +458,12 @@ var questionObj = {
             outVal = "";
         };
         return outVal;
+    },
+
+    storeUserAnswerPress: function (answerIn) {
+        //stores user answer to the current question
+        var qn = gameObj.questionNum;
+        questionObj.allQuestionsOnQuiz[qn].guessedAnswer = answerIn;
     }
 
 };
@@ -464,18 +537,8 @@ var gameObj = {
 
     update: function () {
         //will update all of the scores
-        /*
-        this.left = this.target - this.score;
-        if (this.left < 0) {
-            this.isGameLost = true;
-            this.isGameOver = true;
-        };
-        if (this.left === 0 && this.target > 0) {
-            //game is over only if the target is not zero
-            this.isGameWon = true;
-            this.isGameOver = true;
-        };
-        */
+        //everything now in redraw.  
+        //do I need this function ?
     },
 
     redraw: function () {
@@ -531,7 +594,9 @@ var gameObj = {
         //dispType: 0=hide modal  1=left blank  2=correct  3=wrong
         var dispType = gameObj.convertToDispType(questNumIn);
         var questionDiv = $(configData.divQuestion);
+        //clear out the current question being displayed
         $(questionDiv).html("");
+        $(configData.divAnswerButtons).html("");
         if (dispType === 0) {
             modalAnswerResult.style.display = "hide";
         } else {
@@ -548,13 +613,13 @@ var gameObj = {
             var resultImgSrc = questionObj.retImgLinkAnswer(questNumIn, questionObj.retQuestCorrectAnswerNum(questNumIn));
             console.log(resultImgSrc);
             var isThereResultImg = false;
-            if (resultImgSrc === "" || resultImgSrc===undefined) {
+            if (resultImgSrc === "" || resultImgSrc === undefined) {
                 isThereResultImg = false;
             } else {
                 isThereResultImg = true;
                 $(resultImgTag).attr("src", configData.imgDir + resultImgSrc);
-                $(resultImgTag).attr("width", 100);
-                $(resultImgTag).attr("height", 100);
+                $(resultImgTag).attr("width", 150);
+                $(resultImgTag).attr("height", 150);
             };
 
             //now figure out which one to display
@@ -602,8 +667,6 @@ var gameObj = {
 
     nextQuestion: function () {
         //incrment question # and then display the screen
-        //questionObj.evaluateQuestion(this.questionNum);
-        //gameObj.displayRightWrong(this.questionNum);
         if (gameObj.isGameStartup) {
             //gameObj.redraw();
             modalGameBlank.style.display = "block";
@@ -633,14 +696,22 @@ var gameObj = {
         };
     },
 
+    evalButtonPress: function () {
+        //all of the buttons call this routine
+        var bttnClicked = $(this).attr("data-answer");
+        console.log("button =" + bttnClicked);
+        questionObj.storeUserAnswerPress(parseInt(bttnClicked));
+        nextQuestionStart();
+    },
+
+
     whichAnswerPicked: function () {
-        //command to find which radio button was pressed
-        //all elements need a type = "radio"
-        //should be jQuery, change later working now
-        document.getElementById('question').scrollIntoView();
-        var bttnAnswer = $("input[type=radio]:checked").val();
+        //command to find which button was pressed
+        //read back the current answer for the question if answer = "" then return -1
+        var qn = gameObj.questionNum;
+        var bttnAnswer = questionObj.allQuestionsOnQuiz[qn].guessedAnswer;
         console.log("button pressed = " + bttnAnswer);
-        if (bttnAnswer === undefined) {
+        if (bttnAnswer === undefined || bttnAnswer === "" || bttnAnswer < 0) {
             bttnAnswer = -1;   //-1 means a blank press
         };
         return bttnAnswer;

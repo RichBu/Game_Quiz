@@ -66,6 +66,7 @@
                     <div class="row">
                         <!-- This is the column with buttons -->
                         <button style="Float: left; " id="btnPlay" class="bigButton " data-toggle="tooltip " title="Play the game ">PLAY </button>
+                        <button style="Float: left; " id="btnReport" class="bigButton " data-toggle="tooltip " title="Future -- will show report of what was missed.">REPORT </button>
                         <button style="Float: left; " id="btnHiScores" class="bigButton " data-toggle="tooltip " title="high scores ">HI SCORES</button>
                         <button style="Float: left; " id="btnHelp" class="bigButton " data-toggle="tooltip " title="Help and about ">
                             <span class="glyphicon glyphicon-info-sign "></span>
@@ -83,6 +84,7 @@
                     <div id="question">
                         <p> Question goes here </p>
                     </div>
+                    <div id="answer_buttons"></div>
                 </div>
             </div>
             <div class="row">
@@ -129,7 +131,7 @@
                             <span id="lblNumBlank" style="display: block; ">--</span>
                         </div>
                     </div>
-                    <div class="panel panel-info panelMinMargin ">
+                    <div class="panel panel-warning panelMinMargin ">
                         <div class="panel-heading panelMinPadding ">
                             <span>time left</span>
                         </div>
@@ -202,9 +204,13 @@
             <h2>
                 <p>Game is Over</p>
             </h2>
-            <div id="modGameOverResults"><h4>test data</h4></div>
-            <p><h4>To play again, press the PLAY button and then pick NEW GAME<br/>
-            To get more results click the RESULT button</h4></p>
+            <div id="modGameOverResults">
+                <h4>test data</h4>
+            </div>
+            <p>
+                <h4>To play again, press the PLAY button and then pick NEW GAME
+                    <br/> To get more results click the REPORT button</h4>
+            </p>
         </div>
     </div>
     <!-- MODAL GameBlank -->
@@ -230,10 +236,10 @@
                 <p>Settings for the game</p>
             </h4>
             <p>These are the global settings to be used throughout the game</p>
+            <p>Settings will write to ConfigData object</p>
+            <p>Current settings are timer for each question = 10sec </p>
+            <p>Timer for result display = 5sec</p>
             <div class="modal-footer">
-                <span>
-                    <button style="Float: left; " id="btnSetCheat" class="btn btn-default bigButton " data-toggle="tooltip " title="">Cheat</button>
-                </span>
             </div>
         </div>
     </div>
@@ -250,6 +256,7 @@
             </p>
             <p>This is a trivia quiz game, with a twist, you are timed per question. If you don't answer in time, then the display
                 jumps to the next question. You have two categories to choose from.
+                Questions can be all text, graphic with text, or text with graphic answers.
             </p>
             <p> </p>
             <div class="modal-footer">
@@ -323,11 +330,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js "></script>
 
     <!-- load my custom js for this project -->
-    <script src="assets/javascript/script_globals.js "></script>
+    <script src="assets/javascript/globals.js "></script>
     <script src="assets/javascript/script.js "></script>
-    <script src="assets/javascript/script_modals.js "></script>
-    <script src="assets/javascript/script_words.js "></script>
-    <script src="assets/javascript/script_play.js "></script>
+    <script src="assets/javascript/modals.js "></script>
+    <script src="assets/javascript/play.js "></script>
     <script>
 
         $(document).ready(function () {
@@ -358,20 +364,15 @@
             gameObj.redraw(configData);
 
 
-
-            function evalButtonPress() {
-                //the character coming in can come from mobile entry
-                //or the keyboard
-                if (gameObj.isGameOver) {
-                    //game ended so display the won or lost
-                    gameObj.displayWonLost();
-                } else {
-                    var currentClickedBttn = $(this);
-                    var buttonVal = currentClickedBttn.attr("data-crystal");
-                    gameObj.update();
-                    gameObj.redraw(configData);
-                    gameObj.displayWonLost();
-                };
+            //evalButtonPress defined in globals file
+            evalButtonPress = function () {
+                //all of the buttons call this routine
+                clearInterval(questTimer);  //stop timer right away
+                var bttnClicked = $(this).attr("data-answer");
+                console.log("button =" + bttnClicked);
+                questionObj.storeUserAnswerPress(parseInt(bttnClicked));
+                dispResultStart();
+                //nextQuestionStart();
             };
 
             $("#btnNewGame").on("click", startNewGameButtonPressed);
@@ -384,12 +385,14 @@
                 //set values for new screen, they are in gameObj
                 playObj.startNewGame(configData);
                 gameObj.redraw();
+                //**** displayQuestion is routine to put text and buttons on page
                 questionObj.displayQuestion();
                 gameObj.questionNum = -1; //because it inc on start of f()
                 nextQuestionStart();
                 //call next screen button
             };
 
+            //"next" button for bebugging
             $("#" + configData.bttnNextQuest).on("click", nextQuestionStart);
             function nextQuestionStart() {
                 //pulls up new question
@@ -405,6 +408,7 @@
                         //timer has been set
                         clearInterval(questTimer);
                     };
+                    $(".btn-answers").on("click", evalButtonPress);
                     gameObj.tmrQuestCount = configData.tmrPerQuest;
                     questTimer = setInterval(tmrScreenCountPulse, 1000);
                 } else {
@@ -412,6 +416,7 @@
                     //modal alread brought up in gameObj.nextQuestion
                 }
             };
+            $("#" + configData.bttnNextQuest).css("display", "none"); //hide button
 
             function tmrScreenCountPulse() {
                 //called for every second pulse
@@ -421,6 +426,8 @@
                 if (gameObj.tmrQuestCount <= 0) {
                     //timed out
                     clearInterval(questTimer);
+                    //store as - 1
+                    questionObj.storeUserAnswerPress(parseInt(-1));
                     //call function to pull result with timer
                     dispResultStart();
                 } else {
@@ -443,8 +450,17 @@
                 nextQuestionStart();
             };
 
+            function evalButtonPress() {
+                var bttnClicked = $(this).attr("data-answer");
+                console.log("button =" + bttnClicked);
+                questionObj.storeUserAnswerPress(parseInt(bttnClicked));
+                nextQuestionStart();
+            };
+
             //here is the main loop now for key presses
             document.onkeyup = function (event) {
+                //no keys used YET on this game
+                //eventually allow key press
             }
         });
     </script>

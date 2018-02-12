@@ -5,8 +5,8 @@
 
     modal pop-up windows withing the game  
 
-    Will probably only work with Hangman game
-    the routines are all element id driven 
+    OLD ROUTINES copied from other games.  Therefore, not jQuery.
+    will eventually convert to jQuery
 
     */
 
@@ -99,7 +99,10 @@ closeModGameBlank.onclick = function () {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    //just mass close everything
+    //can NOT just mass close all modals because
+    //on first open, modal closes right after opening
+    //have to make sure the target is the modal
+    //then knwo it's safe to close modal
     //replace with Case statement  in future
     if (event.target == modalHelp) {
         modalHelp.style.display = "none";
